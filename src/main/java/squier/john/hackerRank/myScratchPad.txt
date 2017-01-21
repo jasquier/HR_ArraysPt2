@@ -1,0 +1,201 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        
+        Scanner scanner = new Scanner(System.in);
+        
+        int numTestCases = scanner.nextInt();
+        
+        for ( int i = 0; i < numTestCases; i++ ) {
+
+            int arraySize = scanner.nextInt();
+            int jumpSize = scanner.nextInt();
+            
+            // create and fill array
+            int[] array = new int[arraySize];
+            
+            for ( int j = 0; j < arraySize; j++ ) {
+                array[j] = scanner.nextInt();
+            }
+            
+            int j = 0;
+            while ( j < arraySize ) {
+                 
+                // they're gonna try and trick you up w jumpSizes of 0 and 1
+                if ( jumpSize > 1 ) {
+                    System.out.println("JUMP_MODE");
+                    
+                    // check if you can win with a jump
+                    if ( j + jumpSize >= arraySize ) {
+                        System.out.println("JUMP_WIN from INDEX: " + j);
+                        System.out.println("YES");
+                        break;
+                    }
+                    // see if you can jump
+                    else if ( array[j+jumpSize] == 0 ) {
+                        System.out.println("JUMP from INDEX: " + j);
+                        j += jumpSize; 
+                    }
+                    // see if you can step
+                    else if ( array[j+1] == 0 ) {
+                        System.out.println("STEP from INDEX: " + j);
+                        j++;
+                    }
+                    // see if you can step back and jump
+                    else if ( (j > 0) && (array[j + (jumpSize - 1)] == 0 ) ) {
+                        System.out.println("STEP_BACK_&_JUMP from INDEX: " + j);
+                        j += (jumpSize - 1);
+                    }
+                    // or else you cant progress and you lose
+                    else {
+                        System.out.println("NO");
+                        break;
+                    }
+                }
+                // jumpSize of 1 or 0, don't bother with it
+                else {      
+                    System.out.println("STEP_MODE");
+                    
+                    // see if you can win with a step
+                    if ( j + 1 >= arraySize ) {
+                        System.out.println("YES");
+                        break;
+                    }
+                    // see if you can step
+                    else if ( array[j+1] == 0 ) {
+                        j++;
+                    }
+                    else {
+                        System.out.println("NO");
+                        break;
+                    }
+                }
+                
+                
+                /*
+                boolean canJump = false;
+                
+                // check if you can win with a jump
+                if ( j+jumpSize >= arraySize ) {
+                    System.out.println("YES");
+                    break;
+                }
+                // check if you can perform a jump
+                canJump = (array[j+jumpSize] == 0 );
+                
+                // if you can jump then do it               
+                if ( canJump ) {
+                    //System.out.println("Jumping");
+                    j += jumpSize;
+                    continue;
+                }
+                
+                boolean canStep = false;
+                
+                // check if you can win with a step
+                if ( j+1 >= arraySize ) {
+                    System.out.println("YES");
+                    break;
+                }
+                canStep = (array[j+1] == 0);
+                
+                if ( canStep ) {
+                    //System.out.println("Stepping forward");
+                    j++;
+                    continue;
+                }
+                
+                boolean canStepBackAndJump = false;
+                if ( jumpSize > 1  && j - 1 >= 0 ) {
+                    if ( j+(jumpSize-1) >= arraySize ) {
+                        System.out.println("YES");
+                        break;
+                    }
+                    
+                    canStepBackAndJump = (array[j+(jumpSize-1)] == 0);
+                }
+                
+                if ( canStepBackAndJump ) {
+                    //System.out.println("Stepping back");
+                    j += (jumpSize-1);
+                    continue;
+                }
+                
+                System.out.println("NO");
+                break;
+                
+                */
+            }
+        }
+    }
+}
+        
+        
+        
+            /*
+            System.out.println("T = " + numTestCases + " n = " + arraySize + " jump = " + jumpSize);
+            
+            int[] array = new int[arraySize];
+            
+            // fill the array
+            for ( int j = 0; j < arraySize; j++ ) {
+                array[j] = scanner.nextInt();
+            }
+            
+            // build tree
+            Node root = Node.buildTree(array, 0, jumpSize);
+        }
+    }
+}
+
+class Node {
+    
+    public Integer value;
+    public Node backNode;
+    public Node forwardNode;
+    public Node jumpNode;
+    
+    public static Node buildTree(int[] array, int currentIndex, int jumpSize) {
+        Node temp = new Node();
+  
+        System.out.println("index = " + currentIndex);
+        
+        // base case
+        if ( currentIndex >= array.length || currentIndex < 0 ) {
+            temp.value = currentIndex;
+            temp.backNode = null;
+            temp.forwardNode = null;
+            temp.jumpNode = null;
+            return temp;
+        }
+        
+        // if the 1 is at current index then null out everything, we cant progress from that node
+        if ( array[currentIndex] == 1 ) {
+            temp.value = null;
+            temp.backNode = null;
+            temp.forwardNode = null;
+            temp.jumpNode = null;
+        }
+        
+        // recursive step
+        else {
+            temp.value = currentIndex;
+            temp.backNode = buildTree(array, currentIndex-1, jumpSize);
+            temp.forwardNode = buildTree(array, currentIndex+1, jumpSize);
+            temp.jumpNode = buildTree(array, currentIndex+jumpSize, jumpSize);
+        }
+        
+        return temp;
+    }
+    
+    public void printTree(Node root) {
+        
+    }
+}
+*/
